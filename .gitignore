@@ -1,0 +1,6 @@
+ui/node_modules
+ui/build
+
+api/node_modules
+api/dist
+api/data
