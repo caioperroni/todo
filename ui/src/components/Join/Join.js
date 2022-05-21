@@ -48,7 +48,6 @@ export default function Join() {
       user: data.get("user"),
       pass: data.get("pass"),
     };
-    console.log(body);
     fetch("http://localhost:3000/api/user", {
       method: "POST",
       headers: {

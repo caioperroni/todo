@@ -1,5 +1,4 @@
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import TaskIcon from "@mui/icons-material/Task";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,7 +8,8 @@ import MenuItem from "@mui/material/MenuItem";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useState, useEffect } from "react";
+import { Fragment, useState } from "react";
+import logo from "../../logo.svg";
 import NewProject from "../NewProject";
 import TaskList from "../TaskList";
 
@@ -19,9 +19,17 @@ function logout() {
 }
 
 const theme = createTheme();
+let doFetch = true;
 
 export default function Dashboard() {
   const [items, setItems] = useState([]);
+  let listItems = items.map((element) => {
+    return (
+      <Fragment key={element.id}>
+        <TaskList project={element} />
+      </Fragment>
+    );
+  });
   const [anchorEl, setAnchorEl] = useState(null);
   const tokenString = sessionStorage.getItem("token");
 
@@ -32,8 +40,11 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  useEffect(() => {
-    const tokenString = sessionStorage.getItem("token");
+  const handleAdd = (teste) => {
+    const concat = [].concat(items, teste);
+    setItems(concat);
+  };
+  if (doFetch) {
     fetch(
       "http://localhost:3000/api/project?" +
         new URLSearchParams({
@@ -50,14 +61,11 @@ export default function Dashboard() {
       }
     ).then((res) => {
       res.json().then((result) => {
-        console.log(result);
         setItems(result);
+        doFetch = false;
         // setToken(result);
       });
     });
-  }, []);
-  if (items.length === 0) {
-    return <div className="App">Loading...</div>;
   }
 
   return (
@@ -75,13 +83,13 @@ export default function Dashboard() {
             height: "10vh",
           }}>
           <Toolbar>
-            <TaskIcon sx={{ mr: 2 }} />
+            <img src={logo} alt="" height={20} />
             <Typography
               variant="h6"
               color="inherit"
               noWrap
-              sx={{ flexGrow: 1 }}>
-              Bolttech TODO List
+              sx={{ flexGrow: 1, ml: 2 }}>
+              TODO List
             </Typography>
             <div>
               <span>{tokenString}</span>
@@ -125,10 +133,8 @@ export default function Dashboard() {
           flexWrap: "wrap",
           p: 2,
         }}>
-        <NewProject />
-        {items.map((element) => {
-          return <TaskList />;
-        })}
+        {listItems}
+        <NewProject add={handleAdd} />
       </Box>
     </ThemeProvider>
   );

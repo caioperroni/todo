@@ -11,7 +11,6 @@ function getToken() {
 function App() {
   const token = getToken();
   if (!token) {
-    console.log(window.location.pathname);
     if (window.location.pathname === "/join") return <Join />;
     else return <Login />;
   }

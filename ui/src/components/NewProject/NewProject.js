@@ -28,7 +28,7 @@ const RedditTextField = styled((props) => (
     borderColor: theme.palette.primary.main,
   },
 }));
-export default function NewProject() {
+export default function NewProject(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const tokenString = sessionStorage.getItem("token");
@@ -49,6 +49,7 @@ export default function NewProject() {
     }).then((res) => {
       res.json().then((result) => {
         console.log(result);
+        props.add(result);
         // setToken(result);
       });
     });
