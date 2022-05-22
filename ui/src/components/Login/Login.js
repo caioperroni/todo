@@ -14,7 +14,9 @@ import background from "../../todo.jpg";
 import logo from "../../logo.svg";
 
 function setToken(userToken) {
-  sessionStorage.setItem("token", userToken);
+  sessionStorage.setItem("token", userToken.token);
+  sessionStorage.setItem("user", userToken.user);
+  sessionStorage.setItem("name", userToken.name);
   window.history.pushState({}, "", "/");
   window.location.reload();
 }

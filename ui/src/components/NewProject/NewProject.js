@@ -33,7 +33,7 @@ const RedditTextField = styled((props) => (
 export default function NewProject(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const tokenString = sessionStorage.getItem("token");
+    const tokenString = sessionStorage.getItem("user");
     const data = new FormData(event.currentTarget);
     const body = {
       name: data.get("name"),

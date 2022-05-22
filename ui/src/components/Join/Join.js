@@ -13,12 +13,6 @@ import * as React from "react";
 import background from "../../todo.jpg";
 import logo from "../../logo.svg";
 
-function setToken(userToken) {
-  sessionStorage.setItem("token", userToken);
-  window.history.pushState({}, "", "/");
-  window.location.reload();
-}
-
 function Copyright(props) {
   return (
     <Typography
@@ -60,7 +54,8 @@ export default function Join() {
       body: JSON.stringify(body),
     }).then((res) => {
       res.json().then((result) => {
-        setToken(result.name);
+        window.history.pushState({}, "", "/");
+        window.location.reload();
       });
     });
   };

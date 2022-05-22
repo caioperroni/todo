@@ -1,6 +1,7 @@
 const fs = require("fs");
 const bcrypt = require("bcrypt");
-
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const rawdataUser = fs.existsSync("data/user.json")
   ? fs.readFileSync("data/user.json")
   : "[]";
@@ -60,7 +61,12 @@ const login = (req, res) => {
       const hash = users[idx].pass;
       const compare = bcrypt.compareSync(data.pass, hash);
       if (compare) {
-        res.json(users[idx].name);
+        const data = {
+          token: genToken(users[idx]),
+          name: users[idx].name,
+          user: users[idx].user,
+        };
+        res.json(data);
       } else {
         res.status(500).send("Wrong password.");
       }
@@ -75,6 +81,18 @@ const exists = (check) => {
     return item.user === check;
   });
   return idx >= 0;
+};
+
+const genToken = (user) => {
+  const data = JSON.stringify(user);
+  const token = jwt.sign(
+    {
+      exp: Math.floor(Date.now() / 1000) + 60 * 60,
+      data,
+    },
+    process.env.SECRET_KEY
+  );
+  return token;
 };
 
 module.exports = {

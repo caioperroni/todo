@@ -1,6 +1,7 @@
 // libs require
 const express = require("express");
 const cors = require("cors");
+const fs = require("fs");
 const bodyParser = require("body-parser");
 
 // config require and sets
@@ -38,7 +39,11 @@ app.get("/api/task", task.getByProject);
 app.get("/swagger", config.swaggerRedirect);
 app.get("/", config.swaggerRedirect);
 app.get("/api-docs.json", config.swaggerDocs);
-expressSwagger(options);
+const json = expressSwagger(options);
+
+if (process.argv[3] && process.argv[3] == "watch") {
+  fs.writeFileSync("dist/api-docs.json", JSON.stringify(json));
+}
 
 // app start
 app.listen(port, config.listening);
