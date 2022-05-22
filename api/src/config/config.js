@@ -20,7 +20,7 @@ swaggerRedirect = (req, res) => {
 swaggerOptions = {
   swaggerDefinition: {
     info: {
-      description: "Code Challenge bolttech",
+      description: "Code Challenge Bolttech",
       title: "todo-api",
       version: "1.0.0",
     },

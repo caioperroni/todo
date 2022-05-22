@@ -1,7 +1,7 @@
 {
   "name": "todo-api",
   "version": "1.0.0",
-  "description": "Code Challenge bolttech",
+  "description": "Code Challenge Bolttech",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon ./src/index.js dev watch --ignore dist/api-docs.json",
