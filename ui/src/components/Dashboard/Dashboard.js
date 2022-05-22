@@ -33,7 +33,7 @@ export default function Dashboard() {
     );
   });
   const [anchorEl, setAnchorEl] = useState(null);
-  const tokenString = sessionStorage.getItem("name");
+  const tokenString = sessionStorage.getItem("user");
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
