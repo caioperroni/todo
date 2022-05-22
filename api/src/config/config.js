@@ -37,8 +37,17 @@ swaggerOptions = {
       },
     },
   },
-  basedir: __dirname,
-  files: ["../controller/*.js", "../model/*.js"],
+  basedir: process.cwd(),
+  files: [`${process.cwd()}/src/*/*.js`, `${process.cwd()}/*.js`],
+};
+
+// logic for npm start (nodemon watch mode) and npm run dev -- docker
+swaggerDocs = (req, res) => {
+  if (process.argv[2] && process.argv[2] == "dev") {
+    res.sendFile(`${process.cwd()}/dist/api-docs.json`);
+  } else {
+    res.sendFile(`${process.cwd()}/api-docs.json`);
+  }
 };
 
 module.exports = {
@@ -46,4 +55,5 @@ module.exports = {
   listening,
   swaggerRedirect,
   swaggerOptions,
+  swaggerDocs,
 };

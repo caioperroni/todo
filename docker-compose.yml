@@ -1,0 +1,81 @@
+version: "3"
+
+services:
+  traefik:
+    image: "traefik:v2.6"
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    networks:
+      proxy:
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`monitor.localhost`) || Host(`m.localhost`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+  whoami:
+    image: "traefik/whoami"
+    container_name: "whoami"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=web"
+      - "traefik.docker.network=traefik_proxy"
+    networks:
+      - proxy
+
+  todo_ui:
+    build:
+      dockerfile: ./ui/Dockerfile
+    container_name: todo_ui
+    networks:
+      - proxy
+    stdin_open: true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.todo_ui.rule=Host(`ui.localhost`)"
+      - "traefik.http.routers.todo_ui.entrypoints=web"
+      - "traefik.docker.network=traefik_proxy"
+
+  todo_api:
+    build:
+      dockerfile: ./api/Dockerfile
+    container_name: todo_api
+    networks:
+      - proxy
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.todo_api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.todo_api.entrypoints=web"
+      - "traefik.docker.network=traefik_proxy"
+
+  portainer:
+    container_name: "portainer"
+    image: portainer/portainer-ce:2.0.0
+    command: -H unix:///var/run/docker.sock
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.localhost`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.docker.network=traefik_proxy"
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    name: traefik_proxy

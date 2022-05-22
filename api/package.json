@@ -4,10 +4,10 @@
   "description": "Code Challenge bolttech",
   "main": "src/index.js",
   "scripts": {
-    "test": "jest",
-    "dev": "nodemon ./src/index.js localhost 3090",
-    "buildDev": "rm -rf dist && webpack --mode development --config webpack.config.js",
-    "buildProd": "rm -rf dist && webpack --mode production --config webpack.config.js"
+    "start": "nodemon ./src/index.js dev",
+    "dev": "node ./src/index.js dev",
+    "prod": "bash build.bash && cd dist && node ./index.js",
+    "build": "bash build.bash"
   },
   "repository": {
     "type": "git",

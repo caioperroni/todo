@@ -1,5 +1,6 @@
 ui/node_modules
 ui/build
+ui/.env
 
 api/node_modules
 api/dist

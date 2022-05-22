@@ -36,6 +36,8 @@ app.get("/api/task", task.getByProject);
 
 // swagger setup
 app.get("/swagger", config.swaggerRedirect);
+app.get("/", config.swaggerRedirect);
+app.get("/api-docs.json", config.swaggerDocs);
 expressSwagger(options);
 
 // app start

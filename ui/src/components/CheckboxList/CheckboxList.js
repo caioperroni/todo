@@ -32,7 +32,8 @@ export default function CheckboxList(props) {
   };
   const handleDone = (task) => {
     fetch(
-      "http://localhost:3000/api/task/update?" +
+      process.env.REACT_APP_BASE +
+        "/api/task/update?" +
         new URLSearchParams({
           id: task.id,
           name: task.description,
@@ -64,7 +65,8 @@ export default function CheckboxList(props) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     fetch(
-      "http://localhost:3000/api/task/update?" +
+      process.env.REACT_APP_BASE +
+        "/api/task/update?" +
         new URLSearchParams({
           id: task.id,
           name: data.get("name"),
@@ -90,7 +92,8 @@ export default function CheckboxList(props) {
   };
   const handleRemove = (task) => {
     fetch(
-      "http://localhost:3000/api/task/remove?" +
+      process.env.REACT_APP_BASE +
+        "/api/task/remove?" +
         new URLSearchParams({
           id: task.id,
         }),
