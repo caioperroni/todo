@@ -1,6 +1,6 @@
 # todo
 
-### por Caio Perroni, para bolttech
+### por Caio Perroni, para Bolttech
 
 #### em node, com Express e React
 
@@ -57,7 +57,7 @@ webpack compiled successfully
 
 - no db used, but json. Available on 'api/data' if there's some.
 
-### 1.3 Build and run:
+### 1.4 Build and run:
 
 - you can also build and run your image. For api:
 
@@ -69,6 +69,13 @@ webpack compiled successfully
 ```
 
 - For ui, default react scripts to build and run besides npm start. Just a layer of bash to control .env
+
+```console
+    "start": "bash build.bash start",
+    "build": "bash build.bash build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+```
 
 ## 2. Run Stack on Docker, with docker-compose
 
