@@ -1,4 +1,4 @@
-apiPort = 3000;
+apiPort = 3001;
 
 listening = () => {
   console.clear();
@@ -8,7 +8,7 @@ listening = () => {
   );
   console.log(
     "\x1b[32m%s\x1b[0m",
-    `Swagger available on http://localhost:${apiPort}/swagger`
+    `Swagger available on http://localhost:${apiPort}`
   );
   console.log("\n---------------------------------------------------\nLOGS:");
 };
@@ -24,7 +24,7 @@ swaggerOptions = {
       title: "todo-api",
       version: "1.0.0",
     },
-    host: "localhost:3000",
+    host: "localhost:3001",
     basePath: "/",
     produces: ["application/json", "application/xml"],
     schemes: ["http", "https"],

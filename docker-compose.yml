@@ -32,32 +32,32 @@ services:
     networks:
       - proxy
 
-  todo_ui:
+  ui:
     build:
       dockerfile: ./ui/Dockerfile
-    container_name: todo_ui
+    container_name: ui
     networks:
       - proxy
     stdin_open: true
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.todo_ui.rule=Host(`ui.localhost`)"
-      - "traefik.http.routers.todo_ui.entrypoints=web"
+      - "traefik.http.routers.ui.rule=Host(`ui.localhost`)"
+      - "traefik.http.routers.ui.entrypoints=web"
       - "traefik.docker.network=traefik_proxy"
 
-  todo_api:
+  api:
     build:
       dockerfile: ./api/Dockerfile
-    container_name: todo_api
+    container_name: api
     networks:
       - proxy
     stdin_open: true
     ports:
-      - "3000:3000"
+      - "3001:3001"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.todo_api.rule=Host(`api.localhost`)"
-      - "traefik.http.routers.todo_api.entrypoints=web"
+      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.api.entrypoints=web"
       - "traefik.docker.network=traefik_proxy"
 
   portainer:
