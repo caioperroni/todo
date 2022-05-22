@@ -1,4 +1,5 @@
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import Alert from "@mui/material/Alert";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -6,12 +7,13 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
+import Snackbar from "@mui/material/Snackbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
-import background from "../../todo.jpg";
+import { useState } from "react";
 import logo from "../../logo.svg";
+import background from "../../todo.jpg";
 
 function Copyright(props) {
   return (
@@ -35,6 +37,8 @@ const Theme = require("../Theme");
 const theme = createTheme(Theme.config);
 
 export default function Join() {
+  const [open, setOpen] = useState(false);
+  const [snack, setSnack] = useState("User added! please sign in...");
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -52,12 +56,39 @@ export default function Join() {
       },
       mode: "cors",
       body: JSON.stringify(body),
-    }).then((res) => {
-      res.json().then((result) => {
-        window.history.pushState({}, "", "/");
-        window.location.reload();
+    })
+      .then((res) => {
+        console.log(res);
+        if (res.status === 500) {
+          res.text().then((x) => {
+            setSnack(x);
+            console.log(snack);
+            setOpen(true);
+          });
+        } else {
+          res
+            .json()
+            .then((result) => {
+              console.log(result);
+              setOpen(true);
+              // window.history.pushState({}, "", "/");
+              // window.location.reload();
+            })
+            .catch((x) => {
+              console.log(x);
+            });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
       });
-    });
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   return (
@@ -151,6 +182,11 @@ export default function Join() {
           </Box>
         </Grid>
       </Grid>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          {snack}
+        </Alert>
+      </Snackbar>
     </ThemeProvider>
   );
 }

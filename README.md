@@ -1,5 +1,10 @@
-# todo. por Caio Perroni, para bolttech
+# todo
 
+### por Caio Perroni, para bolttech
+
+#### em node, com Express e React
+
+<hr>
 ## 1. Run locally
 
 ### 1.1 Pre reqs:
@@ -83,7 +88,7 @@ webpack compiled successfully
 
 ```console
 
-# you see ui.localhost, apilocalhost and monitor.localhost for more.
+# you can see ui.localhost, api.localhost and monitor.localhost for more.
 
 [+] Running 5/5
  - Container ui         Started                                                                                           1.3s
