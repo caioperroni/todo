@@ -37,7 +37,8 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const Theme = require("../Theme");
+const theme = createTheme(Theme.config);
 
 export default function Join() {
   const handleSubmit = (event) => {
@@ -48,7 +49,7 @@ export default function Join() {
       user: data.get("user"),
       pass: data.get("pass"),
     };
-    fetch("http://localhost:3000/api/user", {
+    fetch(process.env.REACT_APP_BASE + "/api/user", {
       method: "POST",
       headers: {
         Accept: "application/json",

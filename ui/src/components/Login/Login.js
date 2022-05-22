@@ -37,7 +37,8 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const Theme = require("../Theme");
+const theme = createTheme(Theme.config);
 
 export default function Login() {
   const handleSubmit = (event) => {
@@ -47,7 +48,7 @@ export default function Login() {
       user: data.get("user"),
       pass: data.get("password"),
     };
-    fetch("http://localhost:3000/api/user/login", {
+    fetch(process.env.REACT_APP_BASE + "/api/user/login", {
       method: "POST",
       headers: {
         Accept: "application/json",

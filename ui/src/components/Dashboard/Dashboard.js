@@ -18,7 +18,9 @@ function logout() {
   window.location.reload();
 }
 
-const theme = createTheme();
+const Theme = require("../Theme");
+const theme = createTheme(Theme.config);
+
 let doFetch = true;
 
 export default function Dashboard() {
@@ -46,7 +48,8 @@ export default function Dashboard() {
   };
   if (doFetch) {
     fetch(
-      "http://localhost:3000/api/project?" +
+      process.env.REACT_APP_BASE +
+        "/api/project?" +
         new URLSearchParams({
           id: tokenString,
         }),
@@ -128,13 +131,13 @@ export default function Dashboard() {
           width: "100%",
           height: "100%",
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",
           alignItems: "space-between",
           flexWrap: "wrap",
           p: 2,
         }}>
-        {listItems}
         <NewProject add={handleAdd} />
+        {listItems}
       </Box>
     </ThemeProvider>
   );

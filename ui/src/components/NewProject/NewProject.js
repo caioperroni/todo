@@ -12,7 +12,9 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 
-const theme = createTheme();
+const Theme = require("../Theme");
+const theme = createTheme(Theme.config);
+
 const RedditTextField = styled((props) => (
   <TextField InputProps={{}} {...props} />
 ))(({ theme }) => ({
@@ -37,7 +39,7 @@ export default function NewProject(props) {
       name: data.get("name"),
       user: tokenString,
     };
-    fetch("http://localhost:3000/api/project", {
+    fetch(process.env.REACT_APP_BASE + "/api/project", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -48,9 +50,7 @@ export default function NewProject(props) {
       body: JSON.stringify(body),
     }).then((res) => {
       res.json().then((result) => {
-        console.log(result);
         props.add(result);
-        // setToken(result);
       });
     });
   };
@@ -59,9 +59,10 @@ export default function NewProject(props) {
       <Card
         sx={{
           width: "32.5%",
-          backgroundColor: "#ddd",
+          bgcolor: "primary.light",
           p: 2,
           mb: 2,
+          mr: 1.3,
         }}>
         <CardContent>
           <Typography variant="h5" component="div">
@@ -90,7 +91,11 @@ export default function NewProject(props) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 2, mb: 2 }}>
+              sx={{
+                mt: 2,
+                mb: 2,
+                bgcolor: "primary.dark",
+              }}>
               Create Project
             </Button>{" "}
           </Box>

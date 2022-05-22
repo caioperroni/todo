@@ -1,21 +1,43 @@
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import IconButton from "@mui/material/IconButton";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {
+  alpha,
+  createTheme,
+  styled,
+  ThemeProvider,
+} from "@mui/material/styles";
+import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useState } from "react";
 import CheckboxList from "../CheckboxList";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 
-const theme = createTheme();
+const Theme = require("../Theme");
+const theme = createTheme(Theme.config);
+
 let doFetch = true;
 
+const RedditTextField = styled((props) => (
+  <TextField InputProps={{}} {...props} />
+))(({ theme }) => ({
+  "& .MuiFilledInput-root": {
+    backgroundColor: "white",
+  },
+  "&:hover": {
+    backgroundColor: "white",
+  },
+  "&.Mui-focused": {
+    backgroundColor: "white",
+    boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
+    borderColor: theme.palette.primary.main,
+  },
+}));
 export default function TaskList(props) {
   const [items, setItems] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
@@ -53,7 +75,7 @@ export default function TaskList(props) {
       project: id,
     };
     data.delete("name");
-    fetch("http://localhost:3000/api/task", {
+    fetch(process.env.REACT_APP_BASE + "/api/task", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -65,7 +87,6 @@ export default function TaskList(props) {
     }).then((res) => {
       res.json().then((result) => {
         targ.reset();
-        console.log(targ);
         const concat = [].concat(result, items);
         setItems(concat);
       });
@@ -75,7 +96,8 @@ export default function TaskList(props) {
   if (id) {
     if (doFetch) {
       fetch(
-        "http://localhost:3000/api/task?" +
+        process.env.REACT_APP_BASE +
+          "/api/task?" +
           new URLSearchParams({
             id,
           }),
@@ -110,6 +132,7 @@ export default function TaskList(props) {
             width: "32.5%",
             backgroundColor: "#eee",
             mb: 2,
+            mr: 1.3,
           }}>
           <CardHeader
             title={"Project: " + props.project.name}
@@ -192,7 +215,7 @@ export default function TaskList(props) {
                 justifyContent: "space-between",
                 alignItems: "center",
               }}>
-              <TextField
+              <RedditTextField
                 sx={{
                   width: "80%",
                   mt: "10px",
@@ -205,6 +228,7 @@ export default function TaskList(props) {
                 name="name"
                 autoComplete="name"
                 autoFocus
+                variant="filled"
               />
               <Button type="submit" variant="contained" sx={{ mt: 2, mb: 2 }}>
                 Add{" "}
