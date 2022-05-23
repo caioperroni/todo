@@ -7,8 +7,8 @@
 <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
 <img src="https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white" />
 <img src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white" />
-</div>
-por Caio Perroni, para Bolttech
+</div> 
+por <a href="https://caios.page/">Caio Perroni</a>, para Bolttech
 
 <hr>
 
