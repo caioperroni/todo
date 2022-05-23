@@ -30,6 +30,7 @@ export default function Dashboard() {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const tokenString = sessionStorage.getItem("user");
+  const userFullName = sessionStorage.getItem("name");
   const [openSnack, setOpenSnack] = useState(false);
   const [snack, setSnack] = useState("");
   const [severity, setSeverity] = useState("success");
@@ -141,7 +142,7 @@ export default function Dashboard() {
               TODO List
             </Typography>
             <div>
-              <span>{tokenString}</span>
+              <span>{userFullName}</span>
               <IconButton
                 size="large"
                 aria-label="account of current user"
