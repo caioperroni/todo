@@ -1,10 +1,12 @@
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import Alert from "@mui/material/Alert";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Snackbar from "@mui/material/Snackbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -25,16 +27,20 @@ let doFetch = true;
 
 export default function Dashboard() {
   const [items, setItems] = useState([]);
-  let listItems = items.map((element) => {
-    return (
-      <Fragment key={element.id}>
-        <TaskList project={element} />
-      </Fragment>
-    );
-  });
+
   const [anchorEl, setAnchorEl] = useState(null);
   const tokenString = sessionStorage.getItem("user");
+  const [openSnack, setOpenSnack] = useState(false);
+  const [snack, setSnack] = useState("");
+  const [severity, setSeverity] = useState("success");
 
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -42,10 +48,50 @@ export default function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleAdd = (teste) => {
-    const concat = [].concat(items, teste);
+  const handleAdd = (item) => {
+    const concat = [].concat(items, item);
     setItems(concat);
+    setSnack("Project added!");
+    setSeverity("success");
+    setOpenSnack(true);
   };
+
+  const handleUpdate = (id, name) => {
+    const idx = items.findIndex((item) => {
+      return item.id === id;
+    });
+    const concat = [].concat(items);
+    concat[idx].name = name;
+    setItems(concat);
+    setSnack("Project updated!");
+    setSeverity("success");
+    setOpenSnack(true);
+  };
+
+  const handleRemove = (id) => {
+    const idx = items.findIndex((item) => {
+      return item.id === id;
+    });
+    const concat = [].concat(items);
+    concat.splice(idx, 1);
+    setItems(concat);
+    setSnack("Project removed!");
+    setSeverity("success");
+    setOpenSnack(true);
+  };
+
+  let listItems = items.map((element) => {
+    return (
+      <Fragment key={element.id}>
+        <TaskList
+          project={element}
+          update={handleUpdate}
+          remove={handleRemove}
+        />
+      </Fragment>
+    );
+  });
+
   if (doFetch) {
     fetch(
       process.env.REACT_APP_BASE +
@@ -139,6 +185,22 @@ export default function Dashboard() {
         <NewProject add={handleAdd} />
         {listItems}
       </Box>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={openSnack}
+        autoHideDuration={5000}
+        onClose={handleCloseSnack}>
+        <Alert
+          variant="filled"
+          onClose={handleCloseSnack}
+          severity={severity}
+          sx={{ width: "100%" }}>
+          {snack}
+        </Alert>
+      </Snackbar>{" "}
     </ThemeProvider>
   );
 }

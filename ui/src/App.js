@@ -1,8 +1,8 @@
-import Login from "./components/Login";
-import Join from "./components/Join";
-import Dashboard from "./components/Dashboard";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Join from "./components/Join";
+import Login from "./components/Login";
 
 const Theme = require("./components/Theme");
 const theme = createTheme(Theme.config);

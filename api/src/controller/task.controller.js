@@ -82,7 +82,7 @@ const remove = (req, res) => {
  * This function comment is parsed by doctrine
  * @route GET /api/task
  * @group Task - Operations about task
- * @param {string} id.query.required - Task owner username
+ * @param {string} id.query.required - Project id
  * @returns {Task} 200 - Tasks[]
  */
 const getByProject = (req, res) => {
@@ -96,9 +96,27 @@ const getByProject = (req, res) => {
   }
 };
 
+/**
+ * This function comment is parsed by doctrine
+ * @route GET /api/task/removeByProject
+ * @group Task - Operations about task
+ * @param {string} id.query.required - Project id
+ * @returns {Task} 200 - ok
+ */
+const removeByProject = (req, res) => {
+  const projTasks = tasks.filter((item) => {
+    return item.project !== Number(req.query.id);
+  });
+  const json = JSON.stringify(projTasks);
+  res.json("ok");
+  if (!fs.existsSync("data")) fs.mkdirSync("data");
+  fs.writeFileSync("data/task.json", json);
+};
+
 module.exports = {
   add,
   update,
   remove,
   getByProject,
+  removeByProject,
 };

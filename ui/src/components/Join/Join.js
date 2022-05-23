@@ -28,7 +28,6 @@ function Copyright(props) {
       </Link>
       {" - "}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -39,6 +38,7 @@ const theme = createTheme(Theme.config);
 export default function Join() {
   const [open, setOpen] = useState(false);
   const [snack, setSnack] = useState("User added! please sign in...");
+  const [severity, setSeverity] = useState("success");
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -56,32 +56,21 @@ export default function Join() {
       },
       mode: "cors",
       body: JSON.stringify(body),
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.status === 500) {
-          res.text().then((x) => {
-            setSnack(x);
-            console.log(snack);
-            setOpen(true);
-          });
-        } else {
-          res
-            .json()
-            .then((result) => {
-              console.log(result);
-              setOpen(true);
-              // window.history.pushState({}, "", "/");
-              // window.location.reload();
-            })
-            .catch((x) => {
-              console.log(x);
-            });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    }).then((res) => {
+      if (res.status === 500) {
+        res.text().then((err) => {
+          setSnack(err);
+          setSeverity("error");
+          setOpen(true);
+        });
+      } else {
+        res.json().then(() => {
+          setSnack("User added! please sign in...");
+          setSeverity("success");
+          setOpen(true);
+        });
+      }
+    });
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -170,7 +159,7 @@ export default function Join() {
                 sx={{ mt: 3, mb: 2 }}>
                 Sign Up
               </Button>
-              <Grid container justifyContent="flex-end">
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Link href="/login" variant="body2">
                     Already have an account? Sign in
@@ -182,8 +171,12 @@ export default function Join() {
           </Box>
         </Grid>
       </Grid>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+      <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+        <Alert
+          variant="filled"
+          onClose={handleClose}
+          severity={severity}
+          sx={{ width: "100%" }}>
           {snack}
         </Alert>
       </Snackbar>

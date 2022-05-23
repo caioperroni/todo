@@ -1,11 +1,17 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
 import {
   alpha,
   createTheme,
@@ -38,9 +44,111 @@ const RedditTextField = styled((props) => (
     borderColor: theme.palette.primary.main,
   },
 }));
+
 export default function TaskList(props) {
   const [items, setItems] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [openRemove, setOpenRemove] = React.useState(false);
+  const [newName, setNewName] = useState(props.project.name);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [snack, setSnack] = useState("");
+  const [severity, setSeverity] = useState("success");
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClickOpenRemove = () => {
+    setOpenRemove(true);
+  };
+
+  const handleCloseRemove = () => {
+    setOpenRemove(false);
+  };
+
+  const handleChange = (event) => {
+    setNewName(event.target.value);
+  };
+
+  const handleUpdateProject = () => {
+    fetch(
+      process.env.REACT_APP_BASE +
+        "/api/project/update?" +
+        new URLSearchParams({
+          id: props.project.id,
+          name: newName,
+        }),
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      }
+    ).then((res) => {
+      res.json().then((result) => {
+        if (result === "ok") {
+          props.update(props.project.id, newName);
+          setOpen(false);
+        }
+      });
+    });
+  };
+
+  const handleRemoveProject = () => {
+    fetch(
+      process.env.REACT_APP_BASE +
+        "/api/project/remove?" +
+        new URLSearchParams({
+          id: props.project.id,
+        }),
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+        mode: "cors",
+      }
+    ).then((res) => {
+      res.json().then((result) => {
+        if (result === "ok") {
+          fetch(
+            process.env.REACT_APP_BASE +
+              "/api/task/removeByProject?" +
+              new URLSearchParams({
+                id: props.project.id,
+              }),
+            {
+              method: "GET",
+              headers: {
+                Accept: "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json",
+              },
+              mode: "cors",
+            }
+          ).then((res) => {
+            res.json().then((result) => {
+              if (result === "ok") {
+                props.remove(props.project.id);
+                setOpenRemove(false);
+              }
+            });
+          });
+        }
+      });
+    });
+  };
+
   const id = props.project.id;
   const handleDone = (task) => {
     const pending = items.filter((pendingTask) => {
@@ -49,6 +157,9 @@ export default function TaskList(props) {
     const completed = [].concat(task, completedItems);
     setItems(pending);
     setCompletedItems(completed);
+    setSnack("Task completed!");
+    setSeverity("success");
+    setOpenSnack(true);
     doFetch = false;
   };
   const handleUpdate = (task) => {
@@ -58,6 +169,9 @@ export default function TaskList(props) {
     });
     pending[idx].description = task.description;
     setItems(pending);
+    setSnack("Task updated!");
+    setSeverity("success");
+    setOpenSnack(true);
   };
   const handleRemove = (task) => {
     const pending = items.filter((pendingTask) => {
@@ -65,6 +179,9 @@ export default function TaskList(props) {
     });
     setItems(pending);
     doFetch = false;
+    setSnack("Task removed!");
+    setSeverity("success");
+    setOpenSnack(true);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -74,7 +191,7 @@ export default function TaskList(props) {
       description: data.get("name"),
       project: id,
     };
-    data.delete("name");
+
     fetch(process.env.REACT_APP_BASE + "/api/task", {
       method: "POST",
       headers: {
@@ -89,10 +206,19 @@ export default function TaskList(props) {
         targ.reset();
         const concat = [].concat(result, items);
         setItems(concat);
+        setSnack("Task added!");
+        setSeverity("success");
+        setOpenSnack(true);
       });
     });
   };
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpenSnack(false);
+  };
   if (id) {
     if (doFetch) {
       fetch(
@@ -142,6 +268,7 @@ export default function TaskList(props) {
             action={
               <Box>
                 <IconButton
+                  onClick={handleClickOpen}
                   size="large"
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
@@ -150,6 +277,7 @@ export default function TaskList(props) {
                   <EditIcon />
                 </IconButton>
                 <IconButton
+                  onClick={handleClickOpenRemove}
                   size="large"
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
@@ -236,6 +364,57 @@ export default function TaskList(props) {
             </Box>{" "}
           </CardContent>
         </Card>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>Edit Project</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="newName"
+              label="New project name"
+              fullWidth
+              onChange={handleChange}
+              value={newName}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleUpdateProject} type="submit">
+              Update
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={openRemove} onClose={handleCloseRemove}>
+          <DialogTitle>Remove Project</DialogTitle>
+          <DialogContent>
+            <b>Please confirm</b>:<br></br>
+            Do you want to remove project '{props.project.name}' and all it's
+            tasks ?<br></br>
+            <small>*Can't be undone</small>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseRemove}>Cancel</Button>
+            <Button onClick={handleRemoveProject} type="submit">
+              Yes, remove
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "right",
+          }}
+          open={openSnack}
+          autoHideDuration={5000}
+          onClose={handleCloseSnack}>
+          <Alert
+            variant="filled"
+            onClose={handleCloseSnack}
+            severity={severity}
+            sx={{ width: "100%" }}>
+            {snack}
+          </Alert>
+        </Snackbar>{" "}
       </ThemeProvider>
     );
   } else {

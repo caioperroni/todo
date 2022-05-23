@@ -10,8 +10,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import background from "../../todo.jpg";
 import logo from "../../logo.svg";
+import background from "../../todo.jpg";
 
 function setToken(userToken) {
   sessionStorage.setItem("token", userToken.token);
@@ -34,7 +34,6 @@ function Copyright(props) {
       </Link>
       {" - "}
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -127,7 +126,6 @@ export default function Login() {
                 id="password"
                 autoComplete="current-password"
               />
-
               <Button
                 type="submit"
                 fullWidth
@@ -135,8 +133,7 @@ export default function Login() {
                 sx={{ mt: 2, mb: 2 }}>
                 Sign In
               </Button>
-              <Grid container>
-                <Grid item xs></Grid>
+              <Grid container justifyContent="center">
                 <Grid item>
                   <Link href="/join" variant="body2">
                     {"Don't have an account? Sign Up"}

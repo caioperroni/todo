@@ -1,20 +1,25 @@
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import TaskIcon from "@mui/icons-material/Task";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import { Fragment, useState } from "react";
 import "./CheckboxList.css";
-import CancelIcon from "@mui/icons-material/Cancel";
+
 export default function CheckboxList(props) {
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = useState([0]);
 
   const handleToggle = (value) => () => {
     if (!props.disable) {
@@ -50,7 +55,10 @@ export default function CheckboxList(props) {
       }
     ).then((res) => {
       res.json().then((result) => {
-        if (result === "ok") props.done(task);
+        if (result === "ok") {
+          task.finishedOn = new Date().toUTCString();
+          props.done(task);
+        }
       });
     });
   };
@@ -130,7 +138,7 @@ export default function CheckboxList(props) {
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
                     color="inherit">
-                    <CheckCircleIcon />
+                    <TaskIcon />
                   </IconButton>
                   <IconButton
                     onClick={() => handleUpdateClick(value)}
@@ -162,9 +170,31 @@ export default function CheckboxList(props) {
               className={props.disable ? "disabled" : ""}
               sx={{
                 maxHeight: "5vh",
+                m: 0,
+                p: 0,
               }}
               dense>
-              <ListItemIcon>
+              <ListItemAvatar
+                sx={{
+                  m: 0,
+                  p: 0,
+                  minWidth: "30px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}>
+                {value.finishedOn ? (
+                  <TaskIcon sx={{ color: "#4caf50" }} />
+                ) : (
+                  <PendingActionsIcon sx={{ color: "#ff9800" }} />
+                )}
+              </ListItemAvatar>
+              <ListItemIcon
+                sx={{
+                  m: 0,
+                  p: 0,
+                  minWidth: "30px",
+                }}>
                 <Checkbox
                   edge="start"
                   checked={checked.indexOf(value.id) !== -1}
@@ -215,7 +245,7 @@ export default function CheckboxList(props) {
                     aria-haspopup="true"
                     type="submit"
                     color="inherit">
-                    <CheckCircleIcon />
+                    <TaskIcon />
                   </IconButton>
                   <IconButton
                     onClick={() => handleUpdateClick(value)}
@@ -228,7 +258,21 @@ export default function CheckboxList(props) {
                   </IconButton>
                 </Box>
               ) : (
-                <ListItemText id={labelId} primary={value.description} />
+                <Fragment key={value.id}>
+                  <Tooltip
+                    title={
+                      value.finishedOn
+                        ? `Finished on ${value.finishedOn}`
+                        : `Created on ${value.createdOn}`
+                    }
+                    placement="left">
+                    <ListItemText id={labelId}>
+                      <Typography variant="body1" component="div">
+                        {value.description}
+                      </Typography>
+                    </ListItemText>
+                  </Tooltip>
+                </Fragment>
               )}
             </ListItemButton>
           </ListItem>

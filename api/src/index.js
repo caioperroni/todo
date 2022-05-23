@@ -33,6 +33,7 @@ app.get("/api/project", project.getByUser);
 app.post("/api/task", task.add);
 app.get("/api/task/update", task.update);
 app.get("/api/task/remove", task.remove);
+app.get("/api/task/removeByProject", task.removeByProject);
 app.get("/api/task", task.getByProject);
 
 // swagger setup
