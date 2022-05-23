@@ -8,8 +8,6 @@
 
 ## 1. Run locally
 
-<hr>
-
 ### 1.1 Pre reqs:
 
 - Node.js (https://nodejs.org/en/) and npm.
