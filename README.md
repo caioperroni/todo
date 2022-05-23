@@ -9,19 +9,114 @@
 <img src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white" />
 </div> 
 por <a href="https://caios.page/">Caio Perroni</a>, para Bolttech
+<hr>
+
+## 📂 Project tree
+
+```console
+├─todo
+│   .gitignore
+│   docker-compose.yml
+│   docker.sh
+│   LICENSE
+│   README.md
+│
+├───api
+│   │   .babelrc
+│   │   .env
+│   │   build.bash
+│   │   Dockerfile
+│   │   package-lock.json
+│   │   package.json
+│   │   webpack.config.js
+│   │
+│   └───src
+│       │   index.js
+│       │
+│       ├───config
+│       │       config.js
+│       │       swagger.js
+│       │
+│       ├───controller
+│       │       proj.controller.js
+│       │       task.controller.js
+│       │       user.controller.js
+│       │
+│       └───model
+│               proj.model.js
+│               task.model.js
+│               user.model.js
+│
+└───ui
+    │   build.bash
+    │   Dockerfile
+    │   package-lock.json
+    │   package.json
+    │
+    ├───env
+    │       .env
+    │       .env-docker
+    │
+    ├───public
+    │       favicon.ico
+    │       index.html
+    │       manifest.json
+    │       robots.txt
+    │
+    └───src
+        │   App.css
+        │   App.js
+        │   App.test.js
+        │   index.css
+        │   index.js
+        │   logo.svg
+        │   reportWebVitals.js
+        │   setupTests.js
+        │   todo.jpg
+        │
+        └───components
+            ├───CheckboxList
+            │       CheckboxList.css
+            │       CheckboxList.js
+            │       index.js
+            │
+            ├───Dashboard
+            │       Dashboard.js
+            │       index.js
+            │
+            ├───Join
+            │       index.js
+            │       Join.js
+            │
+            ├───Login
+            │       index.js
+            │       Login.js
+            │
+            ├───NewProject
+            │       index.js
+            │       NewProject.js
+            │
+            ├───TaskList
+            │       index.js
+            │       TaskList.js
+            │
+            └───Theme
+                    index.js
+                    Theme.js
+```
 
 <hr>
 
 ## 💻 Run locally
 
-### 1 Pre reqs:
+### 1. Pre reqs:
 
 - Node.js (https://nodejs.org/en/)
 - npm (https://www.npmjs.com/)
 
 <hr>
 
-### 2 Run api (with Swagger):
+### 2. Run api (with Swagger):
 
 ```bash
   cd api # root/api
@@ -42,7 +137,7 @@ por <a href="https://caios.page/">Caio Perroni</a>, para Bolttech
 
 <hr>
 
-### 3 Run ui:
+### 3. Run ui:
 
 ```bash
   cd ui # root/ui
@@ -66,13 +161,13 @@ por <a href="https://caios.page/">Caio Perroni</a>, para Bolttech
 
 <hr>
 
-### 4 Data:
+### 4. Data:
 
 - no db used, but json. Available on 'api/data' if there's some.
 
 <hr>
 
-### 5 Build and run:
+### 5. Build and run:
 
 - you can also build and run your image. For api:
 
@@ -100,7 +195,7 @@ por <a href="https://caios.page/">Caio Perroni</a>, para Bolttech
 
 - There are Dockerfiles with Alpine setups and a docker-compose.yml file. Run on root:
 
-### 1 Pre reqs:
+### 1. Pre reqs:
 
 - Docker (https://docker.com/)
 - Docker Compose (https://docs.docker.com/compose/)
