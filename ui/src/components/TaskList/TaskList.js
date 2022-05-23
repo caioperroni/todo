@@ -29,12 +29,13 @@ let doFetch = true;
 export default function TaskList(props) {
   const [items, setItems] = useState([]);
   const [completedItems, setCompletedItems] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const [openRemove, setOpenRemove] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [openRemove, setOpenRemove] = useState(false);
   const [newName, setNewName] = useState(props.project.name);
   const [openSnack, setOpenSnack] = useState(false);
   const [snack, setSnack] = useState("");
   const [severity, setSeverity] = useState("success");
+  const id = props.project.id;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -106,7 +107,6 @@ export default function TaskList(props) {
     });
   };
 
-  const id = props.project.id;
   const handleDone = (task) => {
     const pending = items.filter((pendingTask) => {
       return pendingTask.id !== task.id;
@@ -119,6 +119,7 @@ export default function TaskList(props) {
     setOpenSnack(true);
     doFetch = false;
   };
+
   const handleUpdate = (task) => {
     const pending = [].concat(items);
     const idx = pending.findIndex((pendingTask) => {
@@ -130,6 +131,7 @@ export default function TaskList(props) {
     setSeverity("success");
     setOpenSnack(true);
   };
+
   const handleRemove = (task) => {
     const pending = items.filter((pendingTask) => {
       return pendingTask.id !== task.id;
@@ -140,6 +142,7 @@ export default function TaskList(props) {
     setSeverity("success");
     setOpenSnack(true);
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
@@ -162,6 +165,7 @@ export default function TaskList(props) {
       }
     );
   };
+
   const handleCloseSnack = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -169,6 +173,7 @@ export default function TaskList(props) {
 
     setOpenSnack(false);
   };
+
   if (id) {
     if (doFetch) {
       fetch(
