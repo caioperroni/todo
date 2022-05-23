@@ -11,12 +11,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Fragment, useState } from "react";
+import { genOptions } from "../../context/AppContext";
 import logo from "../../logo.svg";
 import NewProject from "../NewProject";
 import TaskList from "../TaskList";
 
 function logout() {
   sessionStorage.removeItem("token");
+  sessionStorage.removeItem("name");
+  sessionStorage.removeItem("user");
   window.location.reload();
 }
 
@@ -100,15 +103,7 @@ export default function Dashboard() {
         new URLSearchParams({
           id: tokenString,
         }),
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      }
+      genOptions()
     ).then((res) => {
       res.json().then((result) => {
         setItems(result);

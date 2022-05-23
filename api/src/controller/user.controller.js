@@ -95,7 +95,29 @@ const genToken = (user) => {
   return token;
 };
 
+/**
+ * This function comment is parsed by doctrine
+ * @route POST /api/user/token
+ * @group User - Operations about user
+ * @param {Token.model} token.body.required - token
+ * @produces application/json application/xml
+ * @consumes application/json application/xml
+ * @returns {string} 200 - ok
+ * @returns {Error}  500 - Invalid token.
+ */
+const validateToken = (req, res) => {
+  const token = req.body.token;
+  try {
+    jwt.verify(token, process.env.SECRET_KEY);
+    res.json("ok");
+  } catch (error) {
+    res.status(500).send(" Invalid token.");
+  }
+  res.json("ok");
+};
+
 module.exports = {
   add,
   login,
+  validateToken,
 };

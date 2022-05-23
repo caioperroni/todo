@@ -24,6 +24,7 @@ const task = require("./controller/task.controller");
 // controllers setup
 app.post("/api/user", user.add);
 app.post("/api/user/login", user.login);
+app.post("/api/user/token", user.validateToken);
 
 app.post("/api/project", project.add);
 app.get("/api/project/update", project.update);

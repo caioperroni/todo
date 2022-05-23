@@ -6,6 +6,7 @@ import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { genOptions } from "../../context/AppContext";
 
 const Theme = require("../Theme");
 const theme = createTheme(Theme.config);
@@ -26,20 +27,13 @@ export default function NewProject(props) {
       name: data.get("name"),
       user: tokenString,
     };
-    fetch(process.env.REACT_APP_BASE + "/api/project", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify(body),
-    }).then((res) => {
-      res.json().then((result) => {
-        props.add(result);
-      });
-    });
+    fetch(process.env.REACT_APP_BASE + "/api/project", genOptions(body)).then(
+      (res) => {
+        res.json().then((result) => {
+          props.add(result);
+        });
+      }
+    );
   };
   return (
     <ThemeProvider theme={theme}>

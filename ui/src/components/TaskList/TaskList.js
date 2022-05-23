@@ -22,6 +22,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useState } from "react";
+import { genOptions } from "../../context/AppContext";
 import CheckboxList from "../CheckboxList";
 
 const Theme = require("../Theme");
@@ -83,15 +84,7 @@ export default function TaskList(props) {
           id: props.project.id,
           name: newName,
         }),
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      }
+      genOptions()
     ).then((res) => {
       res.json().then((result) => {
         if (result === "ok") {
@@ -109,15 +102,7 @@ export default function TaskList(props) {
         new URLSearchParams({
           id: props.project.id,
         }),
-      {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-        mode: "cors",
-      }
+      genOptions()
     ).then((res) => {
       res.json().then((result) => {
         if (result === "ok") {
@@ -127,15 +112,7 @@ export default function TaskList(props) {
               new URLSearchParams({
                 id: props.project.id,
               }),
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Content-Type": "application/json",
-              },
-              mode: "cors",
-            }
+            genOptions()
           ).then((res) => {
             res.json().then((result) => {
               if (result === "ok") {
@@ -192,25 +169,18 @@ export default function TaskList(props) {
       project: id,
     };
 
-    fetch(process.env.REACT_APP_BASE + "/api/task", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify(body),
-    }).then((res) => {
-      res.json().then((result) => {
-        targ.reset();
-        const concat = [].concat(result, items);
-        setItems(concat);
-        setSnack("Task added!");
-        setSeverity("success");
-        setOpenSnack(true);
-      });
-    });
+    fetch(process.env.REACT_APP_BASE + "/api/task", genOptions(body)).then(
+      (res) => {
+        res.json().then((result) => {
+          targ.reset();
+          const concat = [].concat(result, items);
+          setItems(concat);
+          setSnack("Task added!");
+          setSeverity("success");
+          setOpenSnack(true);
+        });
+      }
+    );
   };
   const handleCloseSnack = (event, reason) => {
     if (reason === "clickaway") {
@@ -227,15 +197,7 @@ export default function TaskList(props) {
           new URLSearchParams({
             id,
           }),
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json",
-          },
-          mode: "cors",
-        }
+        genOptions()
       ).then((res) => {
         res.json().then((result) => {
           const pending = result.filter((task) => {

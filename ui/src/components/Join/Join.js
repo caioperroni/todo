@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import logo from "../../logo.svg";
 import background from "../../todo.jpg";
+import { genOptions } from "../../context/AppContext";
 
 function Copyright(props) {
   return (
@@ -47,30 +48,23 @@ export default function Join() {
       user: data.get("user"),
       pass: data.get("pass"),
     };
-    fetch(process.env.REACT_APP_BASE + "/api/user", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify(body),
-    }).then((res) => {
-      if (res.status === 500) {
-        res.text().then((err) => {
-          setSnack(err);
-          setSeverity("error");
-          setOpen(true);
-        });
-      } else {
-        res.json().then(() => {
-          setSnack("User added! please sign in...");
-          setSeverity("success");
-          setOpen(true);
-        });
+    fetch(process.env.REACT_APP_BASE + "/api/user", genOptions(body)).then(
+      (res) => {
+        if (res.status === 500) {
+          res.text().then((err) => {
+            setSnack(err);
+            setSeverity("error");
+            setOpen(true);
+          });
+        } else {
+          res.json().then(() => {
+            setSnack("User added! please sign in...");
+            setSeverity("success");
+            setOpen(true);
+          });
+        }
       }
-    });
+    );
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

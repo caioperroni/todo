@@ -9,3 +9,7 @@
  * @property {string} user.required - Username to login
  * @property {string} pass.required - Password of the user
  */
+/**
+ * @typedef Token
+ * @property {string} token.required - Token to validate
+ */

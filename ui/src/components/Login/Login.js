@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
+import { genOptions } from "../../context/AppContext";
 import logo from "../../logo.svg";
 import background from "../../todo.jpg";
 
@@ -49,16 +50,10 @@ export default function Login() {
       user: data.get("user"),
       pass: data.get("password"),
     };
-    fetch(process.env.REACT_APP_BASE + "/api/user/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify(body),
-    }).then((res) => {
+    fetch(
+      process.env.REACT_APP_BASE + "/api/user/login",
+      genOptions(body)
+    ).then((res) => {
       res.json().then((result) => {
         setToken(result);
       });
