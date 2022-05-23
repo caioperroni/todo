@@ -84,12 +84,16 @@ webpack compiled successfully
 ```console
  # requires docker and docker-compose.
 
- # Build with docker flag (!):
+ # 1. Build with docker flag (!):
+ ./docker.sh
+
+ # or
+
  cd api && npm run build -- docker
  cd ui && npm run build -- docker
 
- # Run compose on root:
-  docker-compose up -d
+ # 2. Run compose on root:
+ docker-compose up -d
 ```
 
 - expected:

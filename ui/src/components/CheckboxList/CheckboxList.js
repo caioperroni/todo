@@ -222,7 +222,7 @@ export default function CheckboxList(props) {
                   }}>
                   <TextField
                     sx={{
-                      width: "70%",
+                      width: "60%",
                       mt: "10px",
                     }}
                     margin="normal"

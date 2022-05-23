@@ -52,8 +52,6 @@ services:
     networks:
       - proxy
     stdin_open: true
-    ports:
-      - "3001:3000"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.localhost`)"
