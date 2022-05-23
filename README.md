@@ -74,35 +74,42 @@ por <a href="https://caios.page/">Caio Perroni</a>, para Bolttech
         │   setupTests.js
         │   todo.jpg
         │
-        └───components
-            ├───CheckboxList
-            │       CheckboxList.css
-            │       CheckboxList.js
-            │       index.js
-            │
-            ├───Dashboard
-            │       Dashboard.js
-            │       index.js
-            │
-            ├───Join
-            │       index.js
-            │       Join.js
-            │
-            ├───Login
-            │       index.js
-            │       Login.js
-            │
-            ├───NewProject
-            │       index.js
-            │       NewProject.js
-            │
-            ├───TaskList
-            │       index.js
-            │       TaskList.js
-            │
-            └───Theme
-                    index.js
-                    Theme.js
+        ├───components
+        │   ├───CheckboxList
+        │   │       CheckboxList.css
+        │   │       CheckboxList.js
+        │   │       index.js
+        │   │
+        │   ├───Dashboard
+        │   │       Dashboard.js
+        │   │       index.js
+        │   │
+        │   ├───Join
+        │   │       index.js
+        │   │       Join.js
+        │   │
+        │   ├───Login
+        │   │       index.js
+        │   │       Login.js
+        │   │
+        │   ├───NewProject
+        │   │       index.js
+        │   │       NewProject.js
+        │   │
+        │   ├───TaskList
+        │   │       index.js
+        │   │       TaskList.js
+        │   │
+        │   ├───Theme
+        │   │       index.js
+        │   │       Theme.js
+        │   │
+        │   └───WhiteTextField
+        │           index.js
+        │           WhiteTextField.js
+        │
+        └───context
+                AppContext.js
 ```
 
 <hr>
