@@ -2,22 +2,15 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
-import TextField from "@mui/material/TextField";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { genOptions } from "../../context/AppContext";
+import WhiteTextField from "../WhiteTextField";
 
 const Theme = require("../Theme");
 const theme = createTheme(Theme.config);
 
-const RedditTextField = styled((props) => (
-  <TextField InputProps={{}} {...props} />
-))(({ theme }) => ({
-  "& .MuiFilledInput-root": {
-    backgroundColor: "white !important",
-  },
-}));
 export default function NewProject(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,7 +50,7 @@ export default function NewProject(props) {
               mt: 1,
               height: "100%",
             }}>
-            <RedditTextField
+            <WhiteTextField
               margin="normal"
               required
               fullWidth

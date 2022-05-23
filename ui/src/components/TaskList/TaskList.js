@@ -12,39 +12,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import Snackbar from "@mui/material/Snackbar";
-import {
-  alpha,
-  createTheme,
-  styled,
-  ThemeProvider,
-} from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { useState } from "react";
 import { genOptions } from "../../context/AppContext";
 import CheckboxList from "../CheckboxList";
+import WhiteTextField from "../WhiteTextField";
 
 const Theme = require("../Theme");
 const theme = createTheme(Theme.config);
 
 let doFetch = true;
-
-const RedditTextField = styled((props) => (
-  <TextField InputProps={{}} {...props} />
-))(({ theme }) => ({
-  "& .MuiFilledInput-root": {
-    backgroundColor: "white",
-  },
-  "&:hover": {
-    backgroundColor: "white",
-  },
-  "&.Mui-focused": {
-    backgroundColor: "white",
-    boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-    borderColor: theme.palette.primary.main,
-  },
-}));
 
 export default function TaskList(props) {
   const [items, setItems] = useState([]);
@@ -305,7 +285,7 @@ export default function TaskList(props) {
                 justifyContent: "space-between",
                 alignItems: "center",
               }}>
-              <RedditTextField
+              <WhiteTextField
                 sx={{
                   width: "80%",
                   mt: "10px",
