@@ -19,15 +19,7 @@ const RedditTextField = styled((props) => (
   <TextField InputProps={{}} {...props} />
 ))(({ theme }) => ({
   "& .MuiFilledInput-root": {
-    backgroundColor: "white",
-  },
-  "&:hover": {
-    backgroundColor: "white",
-  },
-  "&.Mui-focused": {
-    backgroundColor: "white",
-    boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 2px`,
-    borderColor: theme.palette.primary.main,
+    backgroundColor: "white !important",
   },
 }));
 export default function NewProject(props) {
