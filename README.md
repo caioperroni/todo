@@ -1,22 +1,29 @@
-# todo
+# 📝 TODO List
 
-### por Caio Perroni, para Bolttech
+<img src="https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E" />
+<img src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white" />
+<img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" />
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+<img src="https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white" />
+<img src="https://img.shields.io/badge/Shell_Script-121011?style=for-the-badge&logo=gnu-bash&logoColor=white" />
 
-#### em node, com Express e React
+por Caio Perroni, para Bolttech
 
 <hr>
 
-## 1. Run locally
+## 💻 Run locally
 
-### 1.1 Pre reqs:
+### 1 Pre reqs:
 
-- Node.js (https://nodejs.org/en/) and npm.
+- Node.js (https://nodejs.org/en/)
+- npm (https://www.npmjs.com/)
+
 <hr>
 
-### 1.2 Run api (with Swagger):
+### 2 Run api (with Swagger):
 
 ```bash
-  cd api
+  cd api # root/api
   npm i
   npm start
 ```
@@ -34,10 +41,10 @@
 
 <hr>
 
-### 1.3 Run ui:
+### 3 Run ui:
 
 ```bash
-  cd ../ui
+  cd ui # root/ui
   npm i
   npm start
 ```
@@ -58,18 +65,18 @@
 
 <hr>
 
-### 1.4 Data:
+### 4 Data:
 
 - no db used, but json. Available on 'api/data' if there's some.
 
 <hr>
 
-### 1.5 Build and run:
+### 5 Build and run:
 
 - you can also build and run your image. For api:
 
 ```bash
-  cd api
+  cd api # root/api
   npm run build # creates /dist
   npm run dev # run src, but with node, no watch mode.
   npm run prod # build and run /dist image
@@ -78,29 +85,44 @@
 - For ui, default react scripts to build and run besides npm start. Just a layer of bash to control .env
 
 ```bash
-    "start": "bash build.bash start",
-    "build": "bash build.bash build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  cd ui # root/ui
+  npm run <command>
+  #  "start": "bash build.bash start",
+  #  "build": "bash build.bash build",
+  #  "test": "react-scripts test",
+  #  "eject": "react-scripts eject"
 ```
 
 <hr>
 
-## 2. Run Stack on Docker, with docker-compose
+## 🚀 Run Stack on Docker, with docker-compose
 
 - There are Dockerfiles with Alpine setups and a docker-compose.yml file. Run on root:
 
-```bash
- # requires docker and docker-compose.
+### 1 Pre reqs:
 
- # 1. Build with docker flag (!):
+- Docker (https://docker.com/)
+- Docker Compose (https://docs.docker.com/compose/)
+
+<hr>
+
+### 2. Build with docker flag:
+
+```bash
+ # on root
  ./docker.sh
 
  # or
  cd api && npm run build -- docker
  cd ui && npm run build -- docker
+```
 
- # 2. Run compose on root:
+<hr>
+
+### 3. Run Docker Compose:
+
+```bash
+ # on root
  docker-compose up -d
 ```
 
