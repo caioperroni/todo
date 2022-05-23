@@ -8,13 +8,16 @@
 
 ## 1. Run locally
 
+<hr>
+
 ### 1.1 Pre reqs:
 
 - Node.js (https://nodejs.org/en/) and npm.
+<hr>
 
 ### 1.2 Run api (with Swagger):
 
-```console
+```bash
   cd api
   npm i
   npm start
@@ -22,18 +25,20 @@
 
 - expected:
 
-```console
-[todo-api] listening on port::3001
-
-Swagger available on http://localhost:3001
-
----------------------------------------------------
-LOGS:
+```bash
+# [todo-api] listening on port::3001
+#
+# Swagger available on http://localhost:3001
+#
+# ---------------------------------------------------
+# LOGS:
 ```
+
+<hr>
 
 ### 1.3 Run ui:
 
-```console
+```bash
   cd ../ui
   npm i
   npm start
@@ -41,27 +46,31 @@ LOGS:
 
 - expected:
 
-```console
-You can now view ui in the browser.
-
-  Local:            http://localhost:3000
-  On Your Network:  http://172.24.64.1:3000
-
-Note that the development build is not optimized.
-To create a production build, use npm run build.
-
-webpack compiled successfully
+```bash
+# You can now view ui in the browser.
+#
+#  Local:            http://localhost:3000
+#  On Your Network:  http://172.24.64.1:3000
+#
+# Note that the development build is not optimized.
+# To create a production build, use npm run build.
+#
+# webpack compiled successfully
 ```
 
-### 1.3 Data:
+<hr>
+
+### 1.4 Data:
 
 - no db used, but json. Available on 'api/data' if there's some.
 
-### 1.4 Build and run:
+<hr>
+
+### 1.5 Build and run:
 
 - you can also build and run your image. For api:
 
-```console
+```bash
   cd api
   npm run build # creates /dist
   npm run dev # run src, but with node, no watch mode.
@@ -70,25 +79,26 @@ webpack compiled successfully
 
 - For ui, default react scripts to build and run besides npm start. Just a layer of bash to control .env
 
-```console
+```bash
     "start": "bash build.bash start",
     "build": "bash build.bash build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
 ```
 
+<hr>
+
 ## 2. Run Stack on Docker, with docker-compose
 
 - There are Dockerfiles with Alpine setups and a docker-compose.yml file. Run on root:
 
-```console
+```bash
  # requires docker and docker-compose.
 
  # 1. Build with docker flag (!):
  ./docker.sh
 
  # or
-
  cd api && npm run build -- docker
  cd ui && npm run build -- docker
 
@@ -98,14 +108,15 @@ webpack compiled successfully
 
 - expected:
 
-```console
+```bash
 
 # you can see ui.localhost, api.localhost and monitor.localhost for more.
 
-[+] Running 5/5
- - Container ui         Started                                                                                           1.3s
- - Container portainer  Started                                                                                           1.7s
- - Container whoami     Started                                                                                           1.8s
- - Container traefik    Started                                                                                           1.4s
- - Container api        Started                                                                                           0.9s
+
+# [+] Running 5/5
+# - Container ui         Started                                                                                           1.3s
+# - Container portainer  Started                                                                                           1.7s
+# - Container whoami     Started                                                                                           1.8s
+# - Container traefik    Started                                                                                           1.4s
+# - Container api        Started                                                                                           0.9s
 ```
